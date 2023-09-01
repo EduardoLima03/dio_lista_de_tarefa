@@ -1,3 +1,4 @@
+import 'package:dio_lista_de_tarefa/model/tarefa.dart';
 import 'package:dio_lista_de_tarefa/repositories/tarefa_repository.dart';
 import 'package:flutter/material.dart';
 
@@ -11,6 +12,18 @@ class TarefaPage extends StatefulWidget {
 class _TarefaPageState extends State<TarefaPage> {
   var tarefaRepository = TarefaRepository();
   TextEditingController descricaoControler = TextEditingController();
+
+  var _tarefas = <Tarefa>[];
+
+  @override
+  void initState() {
+    super.initState();
+    obterTarefas();
+  }
+
+  void obterTarefas() async {
+    _tarefas = await tarefaRepository.listarTarefas();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,8 +50,12 @@ class _TarefaPageState extends State<TarefaPage> {
                       child: const Text('Cancelar'),
                     ),
                     TextButton(
-                      onPressed: () {
-                        debugPrint(descricaoControler.text);
+                      onPressed: () async {
+                        var tarefa = Tarefa(descricaoControler.text, false);
+                        await tarefaRepository.adicionor(tarefa);
+                        // ignore: use_build_context_synchronously
+                        Navigator.pop(context);
+                        setState(() {});
                       },
                       child: const Text('Salvar'),
                     ),
@@ -48,6 +65,13 @@ class _TarefaPageState extends State<TarefaPage> {
         },
         child: const Icon(Icons.add),
       ),
+      body: ListView.builder(
+          itemCount: _tarefas.length,
+          itemBuilder: (BuildContext bc, int index) {
+            return ListTile(
+              title: Text(_tarefas[index].getDescricao()),
+            );
+          }),
     );
   }
 }
