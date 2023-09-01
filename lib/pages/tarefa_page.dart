@@ -96,17 +96,17 @@ class _TarefaPageState extends State<TarefaPage> {
                   itemBuilder: (BuildContext bc, int index) {
                     return Dismissible(
                       onDismissed: (DismissDirection direction) async {
-                        await tarefaRepository.remove(_tarefas[index].getId());
+                        await tarefaRepository.remove(_tarefas[index].id);
                         obterTarefas();
                       },
-                      key: Key(_tarefas[index].getId()),
+                      key: Key(_tarefas[index].id),
                       child: ListTile(
-                        title: Text(_tarefas[index].getDescricao()),
+                        title: Text(_tarefas[index].descricao),
                         trailing: Switch(
-                            value: _tarefas[index].getConcluido(),
+                            value: _tarefas[index].concluido,
                             onChanged: (bool value) async {
                               await tarefaRepository.alterar(
-                                  _tarefas[index].getId(), value);
+                                  _tarefas[index].id, value);
                               obterTarefas();
                             }),
                       ),
