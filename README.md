@@ -6,5 +6,5 @@ Projeto Flutter desenvolvido no Santander Bootcamp 2023 - Mobile com Flutter.
 - [x] Criar model e repositor
 - [x] Adicionar Page e floatButtom
 - [x] ListView
-- [ ] Remover Itens
+- [x] Remover Itens
 - [ ] get e set na model
